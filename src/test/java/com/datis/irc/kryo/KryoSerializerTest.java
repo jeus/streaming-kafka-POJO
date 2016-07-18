@@ -8,6 +8,7 @@ package com.datis.irc.kryo;
 import com.datis.irc.entity.User;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
@@ -32,51 +33,39 @@ public class KryoSerializerTest extends TestCase {
         super.tearDown();
     }
 
-    /**
-     * Test of configure method, of class KryoSerializer.
-     */
-//    public void testConfigure() {
-//        System.out.println("configure");
-//        Map arg0 = null;
-//        boolean arg1 = false;
-//        KryoSerializer instance = new KryoSerializer();
-//        instance.configure(arg0, arg1);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-    /**
-     * Test of serialize method, of class KryoSerializer.
-     */
-    public void testSerialize() {
+    public void testSerializeDeserialize() {
         System.out.println("serialize<----------Test");
+        KryoSerializer instance = new KryoSerializer();
+
+        User except = getUserObj();
+        byte[] byteCodeSer = instance.serialize("UserSerialize", except);
+        System.out.println("BYTE CODE IS:"+byteCodeSer);
+        
+        
+        Map<String,Object> serdeProps = new HashMap<>();
+        serdeProps.put("Kryo", User.class);
+        KryoDesrializer instanceD = new KryoDesrializer();
+        instanceD.configure(serdeProps, true);
+        User result = (User) instanceD.deserialize("topic1", byteCodeSer);
+        assertTrue(except.equals(result));
+        assertEquals(except, result);
+    }
+
+    private User getUserObj() {
         Date dt = new Date();
         List<String> phone = new ArrayList<String>();
         phone.add("0913333212");
         phone.add("0913333888");
         phone.add("091222883");
+        phone.add("091222883");
+        phone.add("091222883");
+        phone.add("091222883");
         List<Integer> rates = new ArrayList<>();
         rates.add(1);
         rates.add(2);
         rates.add(3);
-        User user = new User("jeus", "Geek", 29, dt.getTime(), phone, rates);
-        KryoSerializer instance = new KryoSerializer();
-        byte[] expResult = null;
-        byte[] result = instance.serialize("serializeKryo", user);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        assertTrue(true);
+        User except = new User("jeus", "Geek", 29, dt.getTime(), phone, rates);
+        return except;
     }
-
-    /**
-     * Test of close method, of class KryoSerializer.
-     */
-//    public void testClose() {
-//        System.out.println("close");
-//        KryoSerializer instance = new KryoSerializer();
-//        instance.close();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
+   
 }

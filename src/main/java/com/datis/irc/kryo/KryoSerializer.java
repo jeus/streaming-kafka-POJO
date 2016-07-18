@@ -37,14 +37,13 @@ public class KryoSerializer<T> implements Serializer<T> {
         FieldSerializer<?> serializer = new FieldSerializer<User>(kryo, User.class);
         kryo.register(User.class, serializer);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        System.out.println("BBBBBBBB------Test1");
-        byte[] dataByte = null;
         if (data != null) {
             Output output = new Output(stream);
-            System.out.println("Test ByteArrayStream:" + stream.toString());
             kryo.writeObject(output, (User) data);
             output.close();
-
+            System.out.println("output for that is :"+stream.toString());
+            System.out.println("output for that is :"+stream.toString().getBytes().length);
+            System.out.println("output for that is :"+stream.toByteArray().length);
         }
         return stream.toByteArray();
     }

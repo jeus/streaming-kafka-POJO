@@ -6,6 +6,7 @@
 package com.datis.irc.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -85,6 +86,53 @@ public class User {
         rateNumber.add(rateNum);
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 31 * hash + Objects.hashCode(this.name);
+        hash = 31 * hash + Objects.hashCode(this.famil);
+        hash = 31 * hash + this.age;
+        hash = 31 * hash + (int) (this.registerDate ^ (this.registerDate >>> 32));
+        hash = 31 * hash + Objects.hashCode(this.phoneNumber);
+        hash = 31 * hash + Objects.hashCode(this.rateNumber);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (this.age != other.age) {
+            return false;
+        }
+        if (this.registerDate != other.registerDate) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.famil, other.famil)) {
+            return false;
+        }
+        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
+            return false;
+        }
+        if (!Objects.equals(this.rateNumber, other.rateNumber)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "User{" + "name=" + name + ", famil=" + famil + ", age=" + age + ", registerDate=" + registerDate + ", phoneNumber=" + phoneNumber + ", rateNumber=" + rateNumber + '}';
