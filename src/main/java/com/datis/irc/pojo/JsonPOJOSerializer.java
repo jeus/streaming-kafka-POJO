@@ -27,6 +27,11 @@ public class JsonPOJOSerializer<T> implements Serializer<T> {
 
     }
 
+    /**
+     *
+     * @param props Value that do not use specific use case
+     * @param isKey key not use here
+     */
     @SuppressWarnings("unchecked")
     @Override
     public void configure(Map<String, ?> props, boolean isKey) {
