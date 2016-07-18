@@ -41,9 +41,6 @@ public class KryoSerializer<T> implements Serializer<T> {
             Output output = new Output(stream);
             kryo.writeObject(output, (User) data);
             output.close();
-            System.out.println("output for that is :"+stream.toString());
-            System.out.println("output for that is :"+stream.toString().getBytes().length);
-            System.out.println("output for that is :"+stream.toByteArray().length);
         }
         return stream.toByteArray();
     }
