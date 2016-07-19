@@ -1,0 +1,12 @@
+number of object Serializer:1000
+Kryo Serializer Test:0.291
+Pojo Serializer Test:1.189
+
+
+
+number of object Serializer:1000
+Kryo Serializer Test:0.324
+EveryFile is:92 Byte
+
+Pojo Serializer Test:1.153
+EveryFile is:179 Byte
