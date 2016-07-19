@@ -26,9 +26,10 @@ import org.apache.commons.io.FileUtils;
  */
 public class KryoSerializerTest extends TestCase {
 
-    private static StringBuilder benchLog = new StringBuilder();
     private final String addressFolder = "/home/jeus/project/Datis/kryo_serde/test1/";
     final int SERDE_NUM = 1000;
+    private StringBuilder benchLog = new StringBuilder("number of object Serializer:" + SERDE_NUM + "\n");
+    byte[] ser = null;
 
     public KryoSerializerTest(String testName) {
         super(testName);
@@ -77,15 +78,17 @@ public class KryoSerializerTest extends TestCase {
     public void testPerformance() {
 
         //pojo vs kryo test it 
-        JsonPOJOSerializer jpojos = new JsonPOJOSerializer();
         User user1 = getUserObj();
         long startTime = System.currentTimeMillis();
+
         for (int i = 0; i < SERDE_NUM; i++) {
             KryoSerializer ks = new KryoSerializer();
-            byteToFile(ks.serialize("topic1", user1), "kryo/Byte" + i + ".bin");
+            ser = ks.serialize("topic1", user1);
+            byteToFile(ser, "kryo/Byte" + i + ".bin");
         }
         long endTime = System.currentTimeMillis();
         benchmarkOutput("Kryo Serializer Test:", startTime, endTime);
+        benchLog.append("EveryFile is:" + ser.length+" Byte\n\n");
 
         try {
             Thread.sleep(3000);
@@ -95,12 +98,14 @@ public class KryoSerializerTest extends TestCase {
 
         startTime = System.currentTimeMillis();
         for (int i = 0; i < SERDE_NUM; i++) {
-            KryoSerializer ks = new KryoSerializer();
-            byteToFile(ks.serialize("topic1", user1), "pojo/Byte" + i + ".bin");
+            JsonPOJOSerializer jpojos1 = new JsonPOJOSerializer();
+            ser = jpojos1.serialize("topic1", user1);
+            byteToFile(ser, "pojo/Byte" + i + ".bin");
         }
         endTime = System.currentTimeMillis();
-        benchmarkOutput("Pojo Serializer Test:", startTime, endTime);
 
+        benchmarkOutput("Pojo Serializer Test:", startTime, endTime);
+        benchLog.append("EveryFile is:" + ser.length+" Byte\n\n");
         System.out.println(benchLog.toString());
     }
 
