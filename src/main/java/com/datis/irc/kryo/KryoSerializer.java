@@ -11,7 +11,6 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.FieldSerializer;
 import java.io.ByteArrayOutputStream;
-import java.util.Map;
 import org.apache.kafka.common.serialization.Serializer;
 import java.util.Map;
 
